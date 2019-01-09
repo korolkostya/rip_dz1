@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block title %}
+    Мои рейсы
+{% endblock %}
+
+{% block content %}
+    <div class="container my-5">
+        <div class="create_service">
+            <div class="create_service__firstbutton">
+                <button type="button" id='create_service__button' class="btn btn-primary" data-toggle="modal"
+                        data-target="#exampleModal">
+                    +
+                </button>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Добавление рейса</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id='create_form__form' action="{% url 'flights:create' %}" method="POST"
+                              enctype='multipart/form-data'>
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                {{ form|bootstrap }}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Применить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for i in object_list %}
+            <div class="row">
+                <div class="col-lg-4 col-sm-6">
+                    <a href="{{ i.get_absolute_url }}">
+                        <img src="{{ i.photo.url }}" alt="" class="img-thumbnail list_image">
+                    </a>
+                </div>
+                <div class="col-lg-8 col-sm-6 list_info">
+                    <a href="{{ i.get_absolute_url }}">{{ i.flightnumb }}</a>
+                    <p class="text-muted">{{ i.customer.username }}</p>
+                    <a href="{% url 'flights:delete' i.id %}">Удалить</a>
+                    <a href="{% url 'flights:edit' i.id %}">Изменить</a>
+                </div>
+            </div>
+            <hr>
+        {% empty %}
+            Вы еще не добавляли рейс!
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+{% block to_body %}
+    <script>
+        $(document).ready(function () {
+            $('#id_price').attr('min', 0);
+            {#$('#id_description').attr('cols', '40');#}
+        });
+    </script>
+{% endblock %}

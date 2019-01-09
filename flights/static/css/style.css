@@ -1,0 +1,13 @@
+.avatar-small {
+    float: left;
+    margin-top: -4px;
+    margin-right: 10px;
+}
+.subscribe-form {
+    padding-top: 8px;
+    display: inline-block;
+}
+
+.comment-form, .like-form {
+    display: inline-block;
+}
